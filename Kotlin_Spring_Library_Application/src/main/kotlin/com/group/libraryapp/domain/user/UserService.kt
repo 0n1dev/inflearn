@@ -22,7 +22,7 @@ class UserService(
     @Transactional(readOnly = true)
     fun getUsers(): List<UserResponse> {
         return userRepository.findAll().asSequence()
-            .map(::UserResponse)
+            .map(UserResponse::of)
             .toList()
     }
 
