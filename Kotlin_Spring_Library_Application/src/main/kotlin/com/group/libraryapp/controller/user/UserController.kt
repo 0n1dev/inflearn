@@ -3,6 +3,7 @@ package com.group.libraryapp.controller.user
 import com.group.libraryapp.domain.user.UserService
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
+import com.group.libraryapp.dto.user.response.UserLoadHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -34,5 +35,10 @@ class UserController(
     @DeleteMapping("/user")
     fun deleteUser(@RequestBody name: String) {
         userService.deleteUser(name)
+    }
+
+    @GetMapping("/user/loan")
+    fun getUserLoanHistories(): List<UserLoadHistoryResponse> {
+        return userService.getUserLoanHistories();
     }
 }
