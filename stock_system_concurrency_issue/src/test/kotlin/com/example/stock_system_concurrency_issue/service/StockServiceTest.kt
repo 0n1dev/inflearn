@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
 
 @SpringBootTest
 internal class StockServiceTest @Autowired constructor(
@@ -35,5 +37,29 @@ internal class StockServiceTest @Autowired constructor(
         val stock = stockRepository.findByIdOrNull(1L) ?: throw RuntimeException()
 
         assertEquals(99, stock.quantity)
+    }
+
+    @Test
+    fun `동시에 100개의 요청`() {
+        val threadCount = 100
+
+        val executorService = Executors.newFixedThreadPool(32)
+        val latch = CountDownLatch(threadCount)
+
+        for (i in 0 until threadCount) {
+            executorService.submit {
+                try {
+                    stockService.decrease(1L, 1L)
+                } finally {
+                    latch.countDown()
+                }
+            }
+        }
+
+        latch.await()
+
+        val stock = stockRepository.findByIdOrNull(1L) ?: throw  RuntimeException()
+
+        assertEquals(0L, stock.quantity)
     }
 }
