@@ -1,6 +1,6 @@
 package com.group.libraryapp.dto.user.request
 
-class UserCreateRequest(
+data class UserCreateRequest(
     val name: String,
     val age: Int?
 )
