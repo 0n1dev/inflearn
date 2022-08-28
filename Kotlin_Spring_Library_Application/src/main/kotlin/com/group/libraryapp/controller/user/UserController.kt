@@ -3,7 +3,7 @@ package com.group.libraryapp.controller.user
 import com.group.libraryapp.domain.user.UserService
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
-import com.group.libraryapp.dto.user.response.UserLoadHistoryResponse
+import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -38,7 +38,7 @@ class UserController(
     }
 
     @GetMapping("/user/loan")
-    fun getUserLoanHistories(): List<UserLoadHistoryResponse> {
+    fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
         return userService.getUserLoanHistories();
     }
 }
